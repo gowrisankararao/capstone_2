@@ -1,0 +1,16 @@
+from fastapi import FastAPI
+
+import models
+from database import Base, engine
+from routers.alerts import router as alerts_router
+
+
+Base.metadata.create_all(bind=engine)
+
+app = FastAPI(title="AI Intelligence Layer -- Alert Explainer API")
+app.include_router(alerts_router)
+
+
+@app.get("/")
+def root() -> dict[str, str]:
+    return {"message": "AI Intelligence Layer is running"}
